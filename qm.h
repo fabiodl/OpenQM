@@ -41,5 +41,6 @@ struct stepResult {
 stepResult makeQMStep(std::vector<Implicant> implicantList);
 std::vector<Implicant> makeQM(const std::vector<Implicant>& implicantList, const std::vector<Implicant>& dontCareList);
 std::string getBooleanExpression(std::vector<Implicant> solution);
+std::string getVerilogExpression(const std::vector<Implicant>& solution,const std::vector<std::string>& names);
 
 #endif // LIBQM_H

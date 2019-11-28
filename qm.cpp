@@ -149,6 +149,50 @@ std::vector< Implicant > makeQM(const std::vector<Implicant>& implicantList, con
 
 }
 
+
+/**
+ * @brief Generate boolean expression from implicant list (solution of QM) with arbitrary names
+ * 
+ * @param solution Implicant list
+ * @param names names
+ * @return std::string
+ */
+std::string getVerilogExpression(const std::vector<Implicant>& solution,const std::vector<std::string>& names){
+
+    std::stringstream result;
+    
+    
+    for(auto i = solution.begin(); i != solution.end(); ++i) {
+        std::string implStr = i->getStr();
+        bool first=true;
+        for(size_t charPos = 0; charPos <= implStr.size(); ++charPos) {
+          switch(implStr[implStr.size()-1-charPos]) {
+          case '0':
+            if (!first) result<<"&";
+            result << "~"<<names[charPos]; 
+            first=false;
+            break;
+          case '1':
+            if (!first) result<<"&";
+            result << names[charPos]; 
+            first=false;
+            break;
+          default:
+            continue;
+          }
+        }
+        if(i != --solution.end()){
+          result << " | ";
+          first=true;
+        }
+    }
+    
+    return result.str();
+    
+}
+
+
+
 /**
  * @brief Generate boolean expression from implicant list (solution of QM)
  * 
@@ -163,7 +207,7 @@ std::string getBooleanExpression(std::vector<Implicant> solution){
     
     for(auto i = solution.begin(); i != solution.end(); ++i) {
         std::string implStr = i->getStr();
-        for(int charPos = 0; charPos <= implStr.size(); ++charPos) {
+        for(size_t charPos = 0; charPos <= implStr.size(); ++charPos) {
             switch(implStr[charPos]) {
                 case '0':
                     result << alphabet[charPos] << "\'"; 
@@ -181,4 +225,7 @@ std::string getBooleanExpression(std::vector<Implicant> solution){
     return result.str();
     
 }
+
+
+
 
