@@ -112,10 +112,12 @@ int main(int argc,char** argv){
     }    
   }
 
-  /*for (size_t i=0;i<n_inputs;i++){
+  /*
+  for (size_t i=0;i<n_inputs;i++){
     std::cout<<"Input "<<std::dec<<i<<" influences "<<std::hex<<(uint)influences[i]<<std::dec<<std::endl;
-  }*/
-
+  }
+  */
+  
   for (size_t j=0;j<n_outputs;j++){
     std::vector<Implicant> list;
     std::vector<char> buffer(n_inputs+1);
@@ -126,6 +128,11 @@ int main(int argc,char** argv){
       }
     }
     size_t realSize=realInputs.size();
+    if (!realSize){
+      std::cout<<outnames[j]<<"="<<((data[0] & (1<<j))?'1':'0')<<std::endl;
+      continue;
+    }
+    
     buffer[realSize]=0;
 
     std::vector<string> realNames(realSize);
